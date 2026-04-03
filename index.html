@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokemon Scanner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" defer></script>
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Camera-powered Pokemon lookup</p>
+        <h1>Pokemon Scanner</h1>
+        <p class="hero-copy">
+          Point your camera at a Pokemon card, poster, screen, or printed image.
+          Capture a frame, scan the name, and pull back core stats straight from the PokeAPI.
+        </p>
+      </div>
+      <div class="hero-badge">Live OCR + Camera Picker</div>
+    </header>
+
+    <main class="app-grid">
+      <section class="panel panel-camera">
+        <div class="panel-heading">
+          <h2>Scanner</h2>
+          <p>Pick a camera, preview the feed, then scan a frame.</p>
+        </div>
+
+        <div class="controls">
+          <label class="field">
+            <span>Camera</span>
+            <select id="cameraSelect"></select>
+          </label>
+          <div class="button-row">
+            <button id="startCameraBtn" class="button">Start camera</button>
+            <button id="scanBtn" class="button button-accent" disabled>Scan Pokemon</button>
+          </div>
+        </div>
+
+        <div class="video-stage">
+          <video id="cameraFeed" autoplay playsinline muted></video>
+          <canvas id="captureCanvas" hidden></canvas>
+          <div class="overlay">
+            <div class="scan-frame"></div>
+            <p>Try centering the Pokemon name inside the frame.</p>
+          </div>
+        </div>
+
+        <div class="status-card">
+          <p class="status-label">Status</p>
+          <p id="statusText">Waiting for camera access.</p>
+        </div>
+      </section>
+
+      <section class="panel panel-results">
+        <div class="panel-heading">
+          <h2>Pokemon Stats</h2>
+          <p>Recognized name, image, types, and battle stats.</p>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+          <p>Nothing scanned yet.</p>
+          <p>Once a Pokemon is detected, its profile will show up here.</p>
+        </div>
+
+        <article id="pokemonCard" class="pokemon-card" hidden>
+          <div class="pokemon-top">
+            <img id="pokemonSprite" alt="" class="pokemon-sprite">
+            <div>
+              <p id="pokemonNumber" class="pokemon-number"></p>
+              <h3 id="pokemonName"></h3>
+              <div id="pokemonTypes" class="type-list"></div>
+            </div>
+          </div>
+
+          <div class="meta-grid">
+            <div class="meta-card">
+              <span>Height</span>
+              <strong id="pokemonHeight"></strong>
+            </div>
+            <div class="meta-card">
+              <span>Weight</span>
+              <strong id="pokemonWeight"></strong>
+            </div>
+            <div class="meta-card">
+              <span>Abilities</span>
+              <strong id="pokemonAbilities"></strong>
+            </div>
+          </div>
+
+          <div>
+            <p class="stats-title">Base stats</p>
+            <div id="statsList" class="stats-list"></div>
+          </div>
+        </article>
+
+        <section class="notes">
+          <h3>Tips</h3>
+          <ul>
+            <li>Use good lighting and keep the Pokemon name visible.</li>
+            <li>Cards with heavy glare can make OCR less accurate.</li>
+            <li>You can switch cameras any time from the dropdown.</li>
+          </ul>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
